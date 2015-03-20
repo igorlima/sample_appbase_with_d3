@@ -20,7 +20,7 @@ define(['d3', 'jquery', 'pubsub'], function(d3, $, PubSub) {
       mousedown_node,
       mouseup_node;
 
-  function init() {
+  function init(namespace) {
     // init svg
     outer = d3.select("#chart")
       .append("svg:svg")
@@ -43,7 +43,7 @@ define(['d3', 'jquery', 'pubsub'], function(d3, $, PubSub) {
     // init force layout
     force = d3.layout.force()
       .size([width, height])
-      .nodes([{}]) // initialize with a single node
+      .nodes([])
       .linkDistance(50)
       .charge(-200)
       .on("tick", tick);
@@ -68,7 +68,7 @@ define(['d3', 'jquery', 'pubsub'], function(d3, $, PubSub) {
 
     redraw();
     require(['appbaseSync'], function(AppbaseSync) {
-      AppbaseSync.init();
+      AppbaseSync.init(namespace);
     });
   }
 
@@ -306,6 +306,12 @@ define(['d3', 'jquery', 'pubsub'], function(d3, $, PubSub) {
     }
   };
 
+  PubSub.subscribe('forceView:clear', function(msg, callback) {
+    while (nodes.pop());
+    while (links.pop());
+    redraw();
+    callback && callback();
+  });
   PubSub.subscribe('forceView:deleteNode', function(msg, node) {
     var selected_node = searchNode(node);
     if (selected_node) {

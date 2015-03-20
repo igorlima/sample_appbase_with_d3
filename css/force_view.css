@@ -36,3 +36,7 @@
 .link_selected {
   stroke: #ff7f0e;
 }
+
+.twitter-typeahead {
+  width: 100%;
+}

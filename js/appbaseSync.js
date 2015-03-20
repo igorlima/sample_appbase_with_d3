@@ -1,11 +1,10 @@
 define(['pubsub', 'jquery', 'colorpicker'], function(PubSub, $) {
-  var nsref = Appbase.ns( Appbase.getAuth().authObj.name.replace(/ /g, '_') );
+  var nsref;
+
   $('#editNodeModal #textColorNode').colorpicker();
- 
   $('button.add-node').on('click', function() {
     PubSub.publish('forceView:addedNode', {});
   });
- 
   $('button.remove-all-node').on('click', function() {
     nsref.on('vertex_added', function(err, vertexRef, obj) {
       if (!err) {
@@ -55,7 +54,12 @@ define(['pubsub', 'jquery', 'colorpicker'], function(PubSub, $) {
  
   PubSub.publish('forceView:deleteNode', {});
  
-  function init() {
+  function init(namespace) {
+    if (!namespace) {
+      return;
+    }
+
+    nsref = namespace ? Appbase.ns( namespace.replace(/[ /~]/g, '') ) : nsref;
     nsref.off('vertex_added');
     nsref.off('vertex_removed');
     nsref.on('vertex_added', function(err, vertexRef, obj) {
@@ -88,6 +92,10 @@ define(['pubsub', 'jquery', 'colorpicker'], function(PubSub, $) {
   }
 
   return {
-    init: init
+    init: function (namespace) {
+      PubSub.publish('forceView:clear', function() {
+        init(namespace);
+      });
+    }
   };
 });

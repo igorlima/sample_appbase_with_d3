@@ -9,7 +9,9 @@ require.config({
     login: 'login',
     pubsub: 'PubSubJS',
     appbaseSync: 'appbaseSync',
-    colorpicker: 'bootstrap-colorpicker.min'
+    colorpicker: 'bootstrap-colorpicker.min',
+    typeahead: 'typeahead.jquery',
+    observeNS: 'observeNS'
   },
   shim: {
     bootstrap: {
@@ -21,7 +23,8 @@ require.config({
     d3: {
       exports: 'd3'
     },
-    colorpicker: ['jquery']
+    colorpicker: ['jquery'],
+    typeahed: ['jquery']
   }
 });
 
