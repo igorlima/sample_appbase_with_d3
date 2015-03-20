@@ -32,7 +32,12 @@ define(['jquery', 'appbaseSync', 'typeahead'], function($, AppbaseSync) {
   function init(authObj) {
     nsref.search({text:authObj.name, properties: ['name']}, function(err, array) {
       var path = (err || array.length === 0) ? Appbase.uuid() : array[0].rootPath.split('/')[1];
-      nsref.v(path).setData(authObj);
+      nsref.v(path).setData({
+        firstname: authObj.firstname,
+        lastname: authObj.lastname,
+        name: authObj.name,
+        raw: authObj.raw
+      });
     });
     nsref.on('vertex_added', function(err, vertexRef, obj) {
       var properties = obj && obj.properties && obj.properties();
