@@ -7,6 +7,7 @@ require.config({
     d3: 'd3.v2.min',
     //appbase: 'appbase.v2.2.15.min',
     login: 'login',
+    enter: 'enter',
     pubsub: 'PubSubJS',
     appbaseSync: 'appbaseSync',
     colorpicker: 'bootstrap-colorpicker.min',
@@ -28,7 +29,8 @@ require.config({
   }
 });
 
-require(['jquery', 'bootstrap', 'login', 'pubsub'], function($, bootstrap, login, PubSub) {
+require(['jquery', 'bootstrap', 'login', 'enter', 'pubsub'], function($, bootstrap, login, enter, PubSub) {
   $('.row.login').removeClass('hidden');
   $('button.login').on('click', login);
+  $('button.enter').on('click', enter);
 });
